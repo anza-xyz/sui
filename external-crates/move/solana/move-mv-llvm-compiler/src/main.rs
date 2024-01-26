@@ -27,7 +27,8 @@ use move_model::{
     model::GlobalEnv, options::ModelBuilderOptions,
     run_model_builder_with_options_and_compilation_flags,
 };
-use move_symbol_pool::Symbol as SymbolPool;
+// todo sui
+//use move_symbol_pool::Symbol as SymbolPool;
 use package::build_dependency;
 use std::{fs, io::Write, path::Path};
 
@@ -83,7 +84,8 @@ fn main() -> anyhow::Result<()> {
         }
 
         let sources = vec![PackagePaths {
-            name: Some(SymbolPool::from(target_path_string.clone())), // TODO: is it better than `None`?
+            name: None, // todo sui
+            //name: Some(SymbolPool::from(target_path_string.clone())), // TODO: is it better than `None`?
             paths: vec![target_path_string],
             named_address_map: named_address_map.clone(),
         }];
@@ -96,7 +98,7 @@ fn main() -> anyhow::Result<()> {
         };
 
         global_env =
-            run_model_builder_with_options_and_compilation_flags(sources, deps, options, flags)?;
+            run_model_builder_with_options_and_compilation_flags(sources, deps, options, flags, None)?;
 
         if global_env.diag_count(Severity::Warning) > 0 {
             let mut writer = Buffer::no_color();
@@ -147,7 +149,7 @@ fn main() -> anyhow::Result<()> {
                 .context("Script blob can't be deserialized")?;
             BinaryIndexedView::Script(&script)
         } else {
-            module = CompiledModule::deserialize(&bytecode_bytes)
+            module = CompiledModule::deserialize_with_defaults(&bytecode_bytes)
                 .context("Module blob can't be deserialized")?;
             BinaryIndexedView::Module(&module)
         };
@@ -168,18 +170,19 @@ fn main() -> anyhow::Result<()> {
 
         global_env = {
             let main_move_module = if args.is_script {
-                let script = CompiledScript::deserialize(&bytecode_bytes)
+                let _script = CompiledScript::deserialize(&bytecode_bytes)
                     .context("Script blob can't be deserialized")?;
-                move_model::script_into_module(script)
+                todo!("sui");
+                //move_model::script_into_module(script)
             } else {
-                CompiledModule::deserialize(&bytecode_bytes)
+                CompiledModule::deserialize_with_defaults(&bytecode_bytes)
                     .context("Module blob can't be deserialized")?
             };
 
             let mut dep_move_modules = vec![];
 
             for bytes in &dep_bytecode_bytes {
-                let dep_module = CompiledModule::deserialize(bytes)
+                let dep_module = CompiledModule::deserialize_with_defaults(bytes)
                     .context("Dependency module blob can't be deserialized")?;
                 dep_move_modules.push(dep_module);
             }

@@ -17,7 +17,7 @@ use move_package::{
             SourceManifest,
         },
     },
-    Architecture, BuildConfig,
+    BuildConfig,
 };
 use move_stdlib::{move_stdlib_files, move_stdlib_named_addresses};
 use move_symbol_pool::Symbol;
@@ -130,15 +130,18 @@ pub fn resolve_dependency(
         dev_mode: dev,
         test_mode: test,
         generate_docs: false,
-        generate_abis: false,
         install_dir: None, // Option<PathBuf>
         force_recompilation: false,
         lock_file: None, // Option<PathBuf>
-        additional_named_addresses: BTreeMap::new(),
-        architecture: Some(Architecture::Move),
         fetch_deps_only: true,
         skip_fetch_latest_git_deps: true,
-        bytecode_version: None, // Option<u32>
+        default_flavor: None, // todo sui
+        default_edition: None, // todo sui
+        deps_as_root: false, // todo sui
+        silence_warnings: false,
+        warnings_are_errors: false,
+        additional_named_addresses: BTreeMap::new(),
+        no_lint: true, // todo sui
     };
 
     let rerooted_path = reroot_path(Some(target_path))?;
@@ -290,7 +293,7 @@ fn parse_package_manifest(
     dep_name: &PackageName,
     mut root_path: PathBuf,
 ) -> Result<(SourceManifest, PathBuf)> {
-    root_path.push(local_path(&dep.kind));
+    root_path.push(local_path(dep));
     let manifest_path = root_path.join(SourcePackageLayout::Manifest.path());
 
     let contents = fs::read_to_string(&manifest_path).with_context(|| {
@@ -311,11 +314,18 @@ fn download_and_update_if_remote(
     dep: &Dependency,
     _skip_fetch_latest_git_deps: bool,
 ) -> Result<()> {
-    match &dep.kind {
-        DependencyKind::Local(_) => Ok(()),
-        _ => Err(anyhow::anyhow!(
-            "Only local dependency allowed in manifest (.toml) file"
-        )),
+    match dep {
+        Dependency::External(_) => {
+            todo!("sui");
+        }
+        Dependency::Internal(dep) => {
+            match &dep.kind {
+                DependencyKind::Local(_) => Ok(()),
+                _ => Err(anyhow::anyhow!(
+                    "Only local dependency allowed in manifest (.toml) file"
+                )),
+            }
+        }
     }
 }
 
@@ -365,16 +375,23 @@ fn repository_path(kind: &DependencyKind) -> PathBuf {
 }
 
 // The path that the dependency of kind `kind` is found at locally, after it is fetched.
-fn local_path(kind: &DependencyKind) -> PathBuf {
-    let mut repo_path = repository_path(kind);
+fn local_path(dep: &Dependency) -> PathBuf {
+    match dep {
+        Dependency::External(_) => {
+            todo!("sui");
+        }
+        Dependency::Internal(dep) => {
+            let mut repo_path = repository_path(&dep.kind);
 
-    if let DependencyKind::Git(GitInfo { subdir, .. })
-    | DependencyKind::Custom(CustomDepInfo { subdir, .. }) = kind
-    {
-        repo_path.push(subdir);
+            if let DependencyKind::Git(GitInfo { subdir, .. })
+                | DependencyKind::Custom(CustomDepInfo { subdir, .. }) = &dep.kind
+            {
+                repo_path.push(subdir);
+            }
+
+            repo_path
+        }
     }
-
-    repo_path
 }
 
 fn url_to_file_name(url: &str) -> String {
