@@ -19,27 +19,25 @@ parking_lot = "0.11"
 toml = "0.5.8"
 regex = "1.1.9"
 rand = "0.8"
-move-bytecode-verifier = { path = "../../move-bytecode-verifier" }
-move-bytecode-source-map = { path = "../../move-ir-compiler/move-bytecode-source-map" }
-move-command-line-common = { path = "../../move-command-line-common" }
-move-core-types = { path = "../../move-core/types" }
-move-ir-types = { path = "../../move-ir/types" }
-move-binary-format = { path = "../../move-binary-format" }
-move-coverage = { path = "../move-coverage" }
-move-compiler = { path = "../../move-compiler" }
-move-model = { path = "../../move-model" }
-move-native = { path = "../../move-native" }
-move-stackless-bytecode = { path = "../../move-prover/bytecode" }
-move-stdlib = { path = "../../move-stdlib" }
-move-symbol-pool = { path = "../../move-symbol-pool" }
-move-cli = { path = "../../tools/move-cli" }
-move-package = { path = "../../tools/move-package" }
-move-to-solana = { path = "../../solana/move-to-solana" }
+move-bytecode-verifier.workspace = true
+move-bytecode-source-map.workspace = true
+move-command-line-common.workspace = true
+move-core-types.workspace = true
+move-ir-types.workspace = true
+move-binary-format.workspace = true
+move-coverage.workspace = true
+move-compiler.workspace = true
+move-model.workspace = true
+move-native.workspace = true
+move-stackless-bytecode.workspace = true
+move-stdlib.workspace = true
+move-symbol-pool.workspace = true
+move-cli.workspace = true
+move-package.workspace = true
+move-to-solana.workspace = true
 clap = { version = "3.1.8", features = ["derive"] }
-#inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "master", features = ["llvm14-0"] }
 semver = "1.0.13"
 llvm-sys = "150.0.3"
-llvm-extra-sys = { path = "../../solana/llvm-extra-sys" }
 extension-trait = "1.0.1"
 num = "0.4.0"
 num-traits = "0.2"
