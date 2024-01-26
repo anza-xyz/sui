@@ -24,7 +24,7 @@ use move_command_line_common::files::{
     MOVE_COMPILED_EXTENSION, MOVE_EXTENSION, SOURCE_MAP_EXTENSION,
 };
 use move_compiler::{shared::PackagePaths, Flags};
-use move_core_types::{identifier::IdentStr, language_storage::ModuleId, value::MoveValue};
+use move_core_types::{identifier::IdentStr, language_storage::ModuleId, annotated_value::MoveValue};
 use move_ir_types::location::Spanned;
 use move_model::{
     model::GlobalEnv, options::ModelBuilderOptions, parse_addresses_from_options,
@@ -271,7 +271,8 @@ fn get_env_from_source<W: WriteColor>(
             named_address_map: addrs,
         }],
         ModelBuilderOptions::default(),
-        Flags::empty().set_flavor("async"),
+        Flags::empty(),
+        None,
     )?;
 
     env.report_diag(error_writer, Severity::Warning);
@@ -321,7 +322,7 @@ fn get_env_from_bytecode(options: &Options) -> anyhow::Result<GlobalEnv> {
             .context("Script blob can't be deserialized")?;
         BinaryIndexedView::Script(&script)
     } else {
-        module = CompiledModule::deserialize(&bytecode_bytes)
+        module = CompiledModule::deserialize_with_defaults(&bytecode_bytes)
             .context("Module blob can't be deserialized")?;
         BinaryIndexedView::Module(&module)
     };
@@ -340,17 +341,18 @@ fn get_env_from_bytecode(options: &Options) -> anyhow::Result<GlobalEnv> {
     }
 
     let main_move_module = if options.is_script {
-        let script = CompiledScript::deserialize(&bytecode_bytes)
+        let _script = CompiledScript::deserialize(&bytecode_bytes)
             .context("Script blob can't be deserialized")?;
-        move_model::script_into_module(script)
+        todo!("sui");
+        //move_model::script_into_module(script)
     } else {
-        CompiledModule::deserialize(&bytecode_bytes).context("Module blob can't be deserialized")?
+        CompiledModule::deserialize_with_defaults(&bytecode_bytes).context("Module blob can't be deserialized")?
     };
 
     let mut dep_move_modules = vec![];
 
     for bytes in &dep_bytecode_bytes {
-        let dep_module = CompiledModule::deserialize(bytes)
+        let dep_module = CompiledModule::deserialize_with_defaults(bytes)
             .context("Dependency module blob can't be deserialized")?;
         dep_move_modules.push(dep_module);
     }

@@ -236,7 +236,7 @@ impl<'mm, 'up> RttyContext<'mm, 'up> {
         let tmty = mty.clone();
         tmty.into_type_tag(g_env)
             .expect("type tag")
-            .to_canonical_string()
+            .to_canonical_string(false)
     }
 
     /// The values here correspond to `move_native::rt_types::TypeDesc`.

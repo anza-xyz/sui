@@ -1501,10 +1501,6 @@ impl<'mm, 'up> FunctionContext<'mm, 'up> {
             | Operation::TraceLocal(_)
             | Operation::TraceReturn(_)
             | Operation::TraceAbort
-            | Operation::TraceExp(_, _)
-            | Operation::TraceGlobalMem(_)
-            | Operation::EmitEvent
-            | Operation::EventStoreDiverge
             | Operation::OpaqueCallBegin(_, _, _)
             | Operation::OpaqueCallEnd(_, _, _)
             | Operation::Uninit
