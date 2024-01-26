@@ -13,7 +13,6 @@
 //! - Hides weirdly mutable array pointers.
 //! - Provides high-level instruction builders compatible with the stackless bytecode model.
 
-use llvm_extra_sys::*;
 use llvm_sys::{core::*, prelude::*, target::*, target_machine::*, LLVMOpcode, LLVMUnnamedAddr};
 use log::debug;
 use move_core_types::u256;
@@ -41,6 +40,17 @@ use crate::stackless::{
     dwarf::{from_raw_slice_to_string, DIBuilder},
     GlobalContext,
 };
+
+// These only exist in the Solana LLVM fork,
+// and are not provided by the llvm-sys crate.
+extern "C" {
+    pub fn LLVMInitializeSBFTargetInfo();
+    pub fn LLVMInitializeSBFTarget();
+    pub fn LLVMInitializeSBFTargetMC();
+    pub fn LLVMInitializeSBFAsmPrinter();
+    pub fn LLVMInitializeSBFAsmParser();
+    pub fn LLVMInitializeSBFDisassembler();
+}
 
 pub fn initialize_sbf() {
     unsafe {
