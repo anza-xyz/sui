@@ -3,6 +3,7 @@ resolver = "2"
 
 members = [
     "crates/*",
+    "solana/*",
 ]
 
 # Dependencies that should be kept in sync through the whole workspace
@@ -152,6 +153,8 @@ move-vm-runtime = { path = "crates/move-vm-runtime" }
 move-vm-test-utils = { path = "crates/move-vm-test-utils" }
 move-vm-types = { path = "crates/move-vm-types" }
 prover_bytecode = { path = "crates/move-stackless-bytecode", package="move-stackless-bytecode" }
+
+move-native = { path = "solana/move-native" }
 
 [profile.bench]
 debug = true
