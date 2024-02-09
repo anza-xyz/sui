@@ -184,7 +184,6 @@ fn compile_mvir_to_mvbc(
     test_plan: &TestPlan,
 ) -> anyhow::Result<()> {
     let mut cmd = Command::new(harness_paths.dep.to_str().expect("PathBuf"));
-    cmd.arg("-m");
     cmd.arg(test_plan.mvir_file.to_str().expect("PathBuf"));
 
     let output = cmd.output()?;
