@@ -21,10 +21,10 @@ pub impl<'a> ModuleEnvExt for mm::ModuleEnv<'a> {
 #[extension_trait]
 pub impl<'a> FunctionEnvExt for mm::FunctionEnv<'a> {
     fn llvm_symbol_name(&self, tyvec: &[mty::Type]) -> String {
-        let name = self.get_full_name_str();
-        if name == "<SELF>::<SELF>" {
-            // fixme move-model names script fns "<SELF>".
-            // we might want to preserve the actual names
+        let name = self.get_name_str();
+        // A special name for generating test entrypoints that
+        // don't use the full solana entrypoints.
+        if name == "test_main" {
             "main".to_string()
         } else {
             self.llvm_symbol_name_full(tyvec)
