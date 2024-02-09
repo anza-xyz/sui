@@ -7,8 +7,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     let a: u8 = 253;
     assert!(0x101::Test1::test_addu8(a, 1) == 254, 10);  // Ok: no overflow.
 

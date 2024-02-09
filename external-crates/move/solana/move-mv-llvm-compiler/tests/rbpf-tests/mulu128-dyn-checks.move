@@ -7,8 +7,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     let a: u128 = 170141183460469231731687303715884105727;
     assert!(0x101::Test1::test_mulu128(a, 2) == 340282366920938463463374607431768211454, 10);  // Ok: no overflow.
 

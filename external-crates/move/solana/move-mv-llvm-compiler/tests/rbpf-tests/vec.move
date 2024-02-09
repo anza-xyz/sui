@@ -329,10 +329,10 @@ module 0x10::tests {
   }
 }
 
-script {
+module 0x10::Test {
   use 0x10::tests;
 
-  fun main(s2: signer, s3: signer) {
+  public fun test_main(s2: signer, s3: signer) {
     tests::test_bool();
     tests::test_u8();
     tests::test_u16();

@@ -4,8 +4,8 @@ module 0x100::Test {
     }
 }
 
-script {
-    fun main()  {
+module 0x10::Test {
+    public fun test_main()  {
         let (x1, x2, x3, x4, x5, x6) = 0x100::Test::ret_6vals(1, 2, 3, 4, 5, 6);
         assert!(x1 == 1, 0xf00);
         assert!(x2 == 2, 0xf01);

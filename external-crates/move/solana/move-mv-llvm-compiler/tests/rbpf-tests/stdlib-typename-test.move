@@ -44,10 +44,10 @@ module 0xA::type_name_tests {
     }
 }
 
-script {
+module 0x10::Test {
     use 0xA::type_name_tests as TT;
 
-    fun main() {
+    public fun test_main() {
         TT::test_ground_types();
         TT::test_structs();
         TT::test_generics();

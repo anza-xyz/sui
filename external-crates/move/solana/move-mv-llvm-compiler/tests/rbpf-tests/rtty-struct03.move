@@ -35,12 +35,12 @@ module 0x200::ST {
     }
 }
 
-script {
+module 0x10::Test {
   use 0x10::debug;
   use 0x10::vector;
   use 0x200::ST;
 
-  fun main() {
+  public fun test_main() {
     let s1 = ST::new(254, 36893488147419103232_u128);
     let s2 = ST::new(123, 456);
     debug::print(&s1);

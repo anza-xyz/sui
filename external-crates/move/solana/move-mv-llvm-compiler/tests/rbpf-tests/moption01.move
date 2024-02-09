@@ -408,8 +408,8 @@ module 0x300::option_tests {
     }
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         use 0x300::option_tests as OT;
 
         OT::option_none_is_none();

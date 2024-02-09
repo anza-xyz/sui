@@ -41,10 +41,10 @@ module 0x100::M10 {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x100::M10;
 
-    fun main() {
+    public fun test_main() {
         let t1 = M10::new(1, 2, 3, 4, 5, 6);
 
         let ta = M10::get_a(t1);

@@ -48,10 +48,10 @@ module 0x10::string_tests {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x10::string_tests as ST;
 
-    fun main() {
+    public fun test_main() {
         ST::test_valid_utf8();
         ST::test_sub_string();
         ST::test_sub_string_empty();

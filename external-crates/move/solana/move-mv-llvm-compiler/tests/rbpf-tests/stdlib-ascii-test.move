@@ -112,10 +112,10 @@ module 0x10::ascii_tests {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x10::ascii_tests as AT;
 
-    fun main() {
+    public fun test_main() {
         AT::test_ascii_chars();
         AT::test_ascii_push_chars();
         AT::test_ascii_push_char_pop_char();

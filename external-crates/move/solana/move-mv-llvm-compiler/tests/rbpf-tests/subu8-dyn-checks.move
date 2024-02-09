@@ -7,8 +7,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     assert!(0x101::Test1::test_subu8(1, 1) == 0, 10);  // Ok: no overflow.
 
     0x101::Test1::test_subu8(0, 1);  // Abort: overflow.

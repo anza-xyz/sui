@@ -13,8 +13,8 @@ module 0x101::Test2 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     let a: u8 = 3;
     let b: u8 = 2;
     let c = 0x100::Test1::test1(a, b);

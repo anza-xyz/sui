@@ -1,7 +1,7 @@
 // input input.json
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     assert!(true, 10);
   }
 }

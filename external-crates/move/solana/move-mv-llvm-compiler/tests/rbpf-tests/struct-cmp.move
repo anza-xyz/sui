@@ -232,8 +232,8 @@ module 0x300::cmp_struct_tests {
     }
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         use 0x300::cmp_struct_tests as ST;
 
         ST::doit();

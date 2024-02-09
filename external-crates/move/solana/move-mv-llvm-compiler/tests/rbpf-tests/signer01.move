@@ -35,10 +35,10 @@ module 0x100::M5 {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x100::M5;
 
-    fun main(s1: signer, s2: signer, s3: signer, s4: signer, s5: signer, s6: signer, s7: signer) {
+    public fun test_main(s1: signer, s2: signer, s3: signer, s4: signer, s5: signer, s6: signer, s7: signer) {
         // Test signer arguments and std::signer routines.
         M5::signer_by_val(s1);
         M5::signer_by_ref(&s2);

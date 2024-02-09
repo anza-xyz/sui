@@ -23,10 +23,10 @@ module 0x100::M3 {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x100::M3;
 
-    fun main() {
+    public fun test_main() {
         let a = @0x2A3B;
         let b = @0x2A3B;
         assert!(M3::eq_address(a, b), 0xf00);

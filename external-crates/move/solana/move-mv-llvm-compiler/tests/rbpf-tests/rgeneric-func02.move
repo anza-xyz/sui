@@ -50,8 +50,8 @@ module 0x200::M11 {
     }
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         let some_usdc = 0x200::M11::mint_usdc(123);
         let t1 = 0x200::M11::get_value_usdc(some_usdc);
         assert!(t1 == 123, 0xf00);

@@ -97,10 +97,10 @@ module 0x2::tests {
   }
 }
 
-script {
+module 0x10::Test {
   use 0x2::tests;
 
-  fun main() {
+  public fun test_main() {
     tests::test_bool();
     tests::test_u8();
     tests::test_u16();

@@ -31,8 +31,8 @@ module 0x100::M2 {
     }
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         let some_sol = 0x100::M2::mint_sol(860);
         let t1 = 0x100::M2::get_value_generic<0x100::M2::Sol>(some_sol);
         assert!(t1 == 860, 0xf00);

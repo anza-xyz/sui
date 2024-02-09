@@ -6,8 +6,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     assert!(0x101::Test1::test_castu32(4294967295u128) == 4294967295, 10);  // Ok: source fits in dest.
 
     0x101::Test1::test_castu32(4294967296u128);  // Abort: source too big.

@@ -32,10 +32,10 @@ module 0x100::M10 {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x100::M10;
 
-    fun main() {
+    public fun test_main() {
         let t1 = M10::f1_pack_unpack_1type(true);
         assert!(t1 == true, 0xf00);
         let t2 = M10::f1_pack_unpack_1type(false);

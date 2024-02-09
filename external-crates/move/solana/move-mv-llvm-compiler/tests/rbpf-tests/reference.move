@@ -12,10 +12,10 @@ module 0x101::foo {
   }
 }
 
-script {
+module 0x10::Test {
   use 0x101::foo;
 
-  fun main() {
+  public fun test_main() {
     let v = foo::deref(&10);
     assert!(v == 10, 1);
 

@@ -12,10 +12,10 @@ module 0x1::Math {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x1::Math;
 
-    fun main()  {
+    public fun test_main()  {
         let (maxval, is_equal) = Math::max(99, 100);
         assert!(maxval == 100, 0xf00);
         assert!(!is_equal, 0xf01);

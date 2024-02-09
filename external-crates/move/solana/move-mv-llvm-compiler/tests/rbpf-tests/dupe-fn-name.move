@@ -12,8 +12,8 @@ module 0x2::foo {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     let v1 = 0x1::foo::a();
     let v2 = 0x1::foo::a();
     assert!(v1 == v2, 10);

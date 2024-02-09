@@ -18,8 +18,8 @@ module 0x200::MX {
     }
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         0x100::MX::doit1();
         0x200::MX::doit2();
     }

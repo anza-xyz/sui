@@ -1,7 +1,7 @@
 // abort 10
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     abort 10;
   }
 }

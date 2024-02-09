@@ -1,5 +1,5 @@
 /// This test is taken directly from the Move stdlib, unmodified other
-/// than to add a driver script.
+/// than to add a driver module 0x10::Test.
 ///
 /// Defines a fixed-point numeric type with a 32-bit integer part and
 /// a 32-bit fractional part.
@@ -301,10 +301,10 @@ module 0x100::fixed_point32 {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x100::fixed_point32;
 
-    fun main() {
+    public fun test_main() {
         let f1 = fixed_point32::create_from_raw_value(0x00000001_20000000);
         assert!(fixed_point32::get_raw_value(f1) == 0x00000001_20000000, 0xf01);
         assert!(!fixed_point32::is_zero(f1), 0xf02);

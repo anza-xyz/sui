@@ -243,8 +243,8 @@ module 0x300::vector_tests {
 
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         use 0x300::vector_tests as VT;
 
         VT::more_vec_literals_u16();

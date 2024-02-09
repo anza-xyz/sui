@@ -182,10 +182,10 @@ module 0x10::bit_vector_tests {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x10::bit_vector_tests as BT;
 
-    fun main() {
+    public fun test_main() {
         BT::test_set_bit_and_index_basic();
         BT::test_set_bit_and_index_odd_size();
         BT::longest_sequence_no_set_zero_index();

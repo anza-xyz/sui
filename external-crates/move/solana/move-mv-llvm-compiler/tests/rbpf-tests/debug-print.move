@@ -30,11 +30,11 @@ module 0x10::vector {
   native public fun borrow_mut<Element>(v: &mut vector<Element>, i: u64): &mut Element;
 }
 
-script {
+module 0x10::Test {
   use 0x10::debug;
   use 0x10::vector;
 
-  fun main() {
+  public fun test_main() {
     debug::print(&10_u8);
     debug::print(&11_u16);
     debug::print(&12_u32);

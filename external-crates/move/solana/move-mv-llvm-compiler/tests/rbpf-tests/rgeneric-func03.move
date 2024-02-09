@@ -21,8 +21,8 @@ module 0x200::MX {
     }
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         let x2 = 0x200::MX::square8(8);
         assert!(x2 == 64, 0xf00);
 

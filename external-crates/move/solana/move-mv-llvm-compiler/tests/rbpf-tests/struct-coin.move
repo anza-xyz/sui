@@ -1,5 +1,5 @@
 
-// A slightly modified example from below, along with a driver script to test it.
+// A slightly modified example from below, along with a driver module 0x10::Test to test it.
 // https://move-language.github.io/move/structs-and-resources.html#example-1-coin
 
 module 0x102::m {
@@ -48,10 +48,10 @@ module 0x102::m {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x102::m;
 
-    fun main() {
+    public fun test_main() {
         let c1 = m::mint(600);
         assert!(m::get_value(&c1) == 600, 0xf00);
 

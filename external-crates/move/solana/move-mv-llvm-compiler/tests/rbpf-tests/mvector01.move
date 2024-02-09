@@ -142,8 +142,8 @@ module 0x10::vector {
     }
 }
 
-script {
-    fun main() {
+module 0x10::Test {
+    public fun test_main() {
         use 0x10::vector;
 
         // Very simple tests for some non-native vector functions with

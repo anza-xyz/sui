@@ -18,10 +18,10 @@ module 0x102::bar {
   }
 }
 
-script {
+module 0x10::Test {
   use 0x102::bar;
 
-  fun main() {
+  public fun test_main() {
     let v = bar::c();
     assert!(v == 1, 11);
   }

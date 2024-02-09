@@ -37,12 +37,12 @@ module 0x200::ST {
     }
 }
 
-script {
+module 0x10::Test {
   use 0x10::debug;
   use 0x10::vector;
   use 0x200::ST;
 
-  fun main() {
+  public fun test_main() {
     let s = ST::new(123000, 66000, 33000, @0xcafe);
     // We can debug print a structure now!
     debug::print(&s);

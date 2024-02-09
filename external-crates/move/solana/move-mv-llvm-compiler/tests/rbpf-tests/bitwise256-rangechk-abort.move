@@ -10,8 +10,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     let a: u256 = 1;
     let b: u8 = 255;
     assert!(0x101::Test1::test_shlu256(a, b) == 0x8000000000000000000000000000000000000000000000000000000000000000, 20);  // Ok: count in range.

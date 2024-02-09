@@ -1,7 +1,7 @@
 
 // An example taken from:
 // https://move-language.github.io/move/structs-and-resources.html#example-2-geometry
-// Unmodified other than adding a driver script.
+// Unmodified other than adding a driver module 0x10::Test.
 
 module 0x100::point {
     struct Point has copy, drop, store {
@@ -60,11 +60,11 @@ module 0x100::circle {
 }
 
 
-script {
+module 0x10::Test {
     use 0x100::circle;
     use 0x100::point;
 
-    fun main() {
+    public fun test_main() {
         let p1 = point::new(12, 34);
         assert!(point::x(&p1) == 12, 0xf00);
         assert!(point::y(&p1) == 34, 0xf01);

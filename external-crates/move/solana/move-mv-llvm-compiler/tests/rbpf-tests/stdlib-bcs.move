@@ -200,10 +200,10 @@ module 0x10::tests {
   }
 }
 
-script {
+module 0x10::Test {
   use 0x10::tests;
 
-  fun main(s: signer, s1: signer, s2: signer) {
+  public fun test_main(s: signer, s1: signer, s2: signer) {
     tests::test_bool();
     tests::test_u8();
     tests::test_u16();

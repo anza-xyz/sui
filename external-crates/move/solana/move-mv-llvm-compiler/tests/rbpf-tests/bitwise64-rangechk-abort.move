@@ -11,8 +11,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     let a: u64 = 1;
     let b: u8 = 63;
     assert!(0x101::Test1::test_shlu64(a, b) == 0x8000000000000000, 20);  // Ok: count in range.

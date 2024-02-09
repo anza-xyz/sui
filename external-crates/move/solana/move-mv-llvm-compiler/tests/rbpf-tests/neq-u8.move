@@ -5,8 +5,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     assert!(0x101::Test1::test_neq_u8(255u8, 254u8), 10);
     assert!(!0x101::Test1::test_neq_u8(255u8, 255u8), 10);
   }

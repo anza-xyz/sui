@@ -14,10 +14,10 @@ module 0x101::foo {
   }
 }
 
-script {
+module 0x10::Test {
   use 0x101::foo;
 
-  fun main() {
+  public fun test_main() {
     let v = foo::a();
     assert!(v == 1, 11);
     v = foo::test_sub(10, 3);

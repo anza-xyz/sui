@@ -7,8 +7,8 @@ module 0x101::Test1 {
   }
 }
 
-script {
-  fun main() {
+module 0x10::Test {
+  public fun test_main() {
     let a: u32 = 4294967294;  // UMAX-2.
     assert!(0x101::Test1::test_addu32(a, 1) == 4294967295, 10);  // Ok: no overflow.
 

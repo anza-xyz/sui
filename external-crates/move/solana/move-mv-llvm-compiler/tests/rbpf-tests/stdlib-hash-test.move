@@ -16,10 +16,10 @@ module 0x10::hash_tests {
     }
 }
 
-script {
+module 0x10::Test {
     use 0x10::hash_tests as HT;
 
-    fun main() {
+    public fun test_main() {
         HT::sha2_256_expected_hash();
         HT::sha3_256_expected_hash();
     }
