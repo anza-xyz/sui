@@ -1,11 +1,11 @@
-; ModuleID = 'main'
+; ModuleID = '0x10__Test'
 source_filename = " This is host specific and removed from comparison "
 target datalayout = "e-m:e-p:64:64-i64:64-n32:64-S128"
 target triple = "sbf-solana-solana"
 
 declare i32 @memcmp(ptr, ptr, i64)
 
-define void @ffffffffffffffff_main_main_3nJ5qedGcCaPAw() {
+define void @"0000000000000010_Test_main_EUjG8uY8supRjZ"() {
 entry:
   %local_0 = alloca i8, align 1
   %local_1 = alloca i8, align 1
