@@ -44,8 +44,9 @@ pub fn get_harness_paths(dep: &str) -> anyhow::Result<HarnessPaths> {
                 "move-cli",
                 "--bin",
                 "move",
-                "--features",
-                "solana-backend"
+                // fixme sui
+                //"--features",
+                //"solana-backend"
             ])
             .status()
             .expect("Failed to build move-cli")
@@ -101,9 +102,9 @@ pub fn get_harness_paths(dep: &str) -> anyhow::Result<HarnessPaths> {
 
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").expect("cargo_manifest_dir");
     let manifest_dir = Path::new(&manifest_dir);
-    let stdlib_src_dir = manifest_dir.join("../../../language/move-stdlib");
-    let move_native_source = manifest_dir.join("../../../language/move-native");
-    let move_native_archive = manifest_dir.join("../../../target");
+    let stdlib_src_dir = manifest_dir.join("../../crates/move-stdlib");
+    let move_native_source = manifest_dir.join("../move-native");
+    let move_native_archive = manifest_dir.join("../../target");
 
     Ok(HarnessPaths {
         dep: move_build,
@@ -373,7 +374,6 @@ pub fn run_move_build_full(
     clean_build_dir(build_dir)?;
     let mut cmd = Command::new(&harness_paths.dep);
     cmd.args(move_files);
-    cmd.args(["--flavor", "none"]);
     cmd.args(["--out-dir", build_dir.to_str().expect("utf-8")]);
 
     for (name, addr) in addresses {

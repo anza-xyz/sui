@@ -184,7 +184,7 @@ fn get_runtime(sbf_tools: &PlatformTools) -> anyhow::Result<Runtime> {
         let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").expect("cargo manifest dir");
         let manifest_dir = PathBuf::from(manifest_dir);
         let move_native = manifest_dir
-            .join("../../../language/move-native/Cargo.toml")
+            .join("../move-native/Cargo.toml")
             .to_string_lossy()
             .to_string();
 
