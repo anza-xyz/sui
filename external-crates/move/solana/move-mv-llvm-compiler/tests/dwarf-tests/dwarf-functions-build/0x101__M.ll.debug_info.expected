@@ -1,5 +1,5 @@
 ; ModuleID = '0x101__M.dbg_info'
-source_filename = "/language/tools/move-mv-llvm-compiler/tests/dwarf-tests/dwarf-functions.move"
+source_filename = "/move/solana/move-mv-llvm-compiler/tests/dwarf-tests/dwarf-functions.move"
 
 !llvm.dbg.cu = !{!0}
 !struct.M__EmptyStruct = !{!2}
@@ -9,7 +9,7 @@ source_filename = "/language/tools/move-mv-llvm-compiler/tests/dwarf-tests/dwarf
 !fun_1 = !{!31}
 
 !0 = distinct !DICompileUnit(language: DW_LANG_Rust, file: !1, producer: "move-mv-llvm-compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false, sysroot: "/")
-!1 = !DIFile(filename: "dwarf-functions.move", directory: "/language/tools/move-mv-llvm-compiler/tests/dwarf-tests")
+!1 = !DIFile(filename: "dwarf-functions.move", directory: "/move/solana/move-mv-llvm-compiler/tests/dwarf-tests")
 !2 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "struct.M__EmptyStruct__ptr", baseType: !3, size: 64, align: 64, dwarfAddressSpace: 0)
 !3 = !DICompositeType(tag: DW_TAG_structure_type, name: "struct.M__EmptyStruct", scope: !4, file: !1, line: 27, size: 8, align: 8, flags: DIFlagObjcClassComplete, elements: !5)
 !4 = !DINamespace(name: "struct.M__EmptyStruct", scope: !1)

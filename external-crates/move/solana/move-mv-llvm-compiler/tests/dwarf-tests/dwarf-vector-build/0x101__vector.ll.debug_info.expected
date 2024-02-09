@@ -1,5 +1,5 @@
 ; ModuleID = '0x101__vector.dbg_info'
-source_filename = "/language/tools/move-mv-llvm-compiler/tests/dwarf-tests/dwarf-vector.move"
+source_filename = "/move/solana/move-mv-llvm-compiler/tests/dwarf-tests/dwarf-vector.move"
 
 !llvm.dbg.cu = !{!0}
 !struct.vector__Foo = !{!2, !10, !10, !10}
@@ -8,7 +8,7 @@ source_filename = "/language/tools/move-mv-llvm-compiler/tests/dwarf-tests/dwarf
 !singleton = !{!23, !28}
 
 !0 = distinct !DICompileUnit(language: DW_LANG_Rust, file: !1, producer: "move-mv-llvm-compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false, sysroot: "/")
-!1 = !DIFile(filename: "dwarf-vector.move", directory: "/language/tools/move-mv-llvm-compiler/tests/dwarf-tests")
+!1 = !DIFile(filename: "dwarf-vector.move", directory: "/move/solana/move-mv-llvm-compiler/tests/dwarf-tests")
 !2 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "struct.vector__Foo__ptr", baseType: !3, size: 64, align: 64, dwarfAddressSpace: 0)
 !3 = !DICompositeType(tag: DW_TAG_structure_type, name: "struct.vector__Foo", scope: !4, file: !1, line: 2, size: 128, align: 8, flags: DIFlagObjcClassComplete, elements: !5)
 !4 = !DINamespace(name: "struct.vector__Foo", scope: !1)
