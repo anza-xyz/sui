@@ -298,13 +298,20 @@ fn main() -> anyhow::Result<()> {
                 }
                 llvm_write_to_file(llmod.as_mut(), args.llvm_ir, &output_file)?;
                 drop(llmod);
+                if entrypoint_generator.has_entries() {
+                    let path = Path::new(&output_file);
+                    let path = path.to_path_buf();
+                    let path = path.parent().unwrap();
+                    let path = path.join("solana_entrypoint.ll");
+                    llvm_write_to_file(entrypoint_generator.llvm_module.0, true, &path.to_string_lossy().to_string())?;
+                }
             } else {
                 write_object_file(llmod, &llmachine, &output_file_path)?;
+                if entrypoint_generator.has_entries() {
+                    let path = Path::new(&output_file_path);
+                    entrypoint_generator.write_object_file(path.to_path_buf().parent().unwrap())?;
+                }
             }
-        }
-        if entrypoint_generator.has_entries() {
-            let path = Path::new(&output_file_path);
-            entrypoint_generator.write_object_file(path.to_path_buf().parent().unwrap())?;
         }
         // NB: context must outlive llvm module
         // fixme this should be handled with lifetimes
