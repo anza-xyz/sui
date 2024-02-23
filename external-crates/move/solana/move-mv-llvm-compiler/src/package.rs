@@ -17,7 +17,7 @@ use move_package::{
             SourceManifest,
         },
     },
-    BuildConfig,
+    Architecture, BuildConfig,
 };
 use move_stdlib::{move_stdlib_files, move_stdlib_named_addresses};
 use move_symbol_pool::Symbol;
@@ -142,6 +142,7 @@ pub fn resolve_dependency(
         warnings_are_errors: false,
         additional_named_addresses: BTreeMap::new(),
         no_lint: true, // todo sui
+        architecture: Some(Architecture::Solana),
     };
 
     let rerooted_path = reroot_path(Some(target_path))?;

@@ -65,3 +65,4 @@ harness = false
 
 [features]
 tiered-gas = [ "move-vm-test-utils/tiered-gas" ]
+solana-backend = ["move-package/solana-backend"]
