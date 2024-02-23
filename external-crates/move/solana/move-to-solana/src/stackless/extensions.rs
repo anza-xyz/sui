@@ -20,11 +20,15 @@ pub impl<'a> ModuleEnvExt for mm::ModuleEnv<'a> {
 
 #[extension_trait]
 pub impl<'a> FunctionEnvExt for mm::FunctionEnv<'a> {
-    fn llvm_symbol_name(&self, tyvec: &[mty::Type]) -> String {
+    fn is_test_main(&self) -> bool {
         let name = self.get_name_str();
         // A special name for generating test entrypoints that
         // don't use the full solana entrypoints.
-        if name == "test_main" {
+        name == "test_main" && !self.is_entry()
+    }
+
+    fn llvm_symbol_name(&self, tyvec: &[mty::Type]) -> String {
+        if self.is_test_main() {
             "main".to_string()
         } else {
             self.llvm_symbol_name_full(tyvec)
