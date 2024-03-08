@@ -6,4 +6,4 @@ version = "1.0.0"
 struct_nested = "0xdcba"
 
 [dependencies]
-MoveStdlib = { local = "../../../../../move-stdlib", addr_subst = { "std" = "0x1" } }
+MoveStdlib = { local = "../../../../../crates/move-stdlib", addr_subst = { "std" = "0x1" } }

@@ -1,6 +1,7 @@
 /// This module defines a minimal and generic Coin and Balance.
 module NamedAddr::BasicCoin {
-    use std::signer;
+    // todo (sui) some of the features here no longer exist
+    /*use std::signer;
 
     /// Error codes
     const ENOT_MODULE_OWNER: u64 = 0;
@@ -96,5 +97,5 @@ module NamedAddr::BasicCoin {
 
         let post balance_post = global<Balance<CoinType>>(addr).coin.value;
         ensures balance_post == balance + check_value;
-    }
+    }*/
 }
