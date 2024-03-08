@@ -1,5 +1,5 @@
 ; ModuleID = '0x1__hash'
-source_filename = " This is host specific and removed from comparison "
+source_filename = "/home/brian/solana/sui/external-crates/move/crates/move-stdlib/sources/hash.move"
 target datalayout = "e-m:e-p:64:64-i64:64-n32:64-S128"
 target triple = "sbf-solana-solana"
 
@@ -11,7 +11,7 @@ target triple = "sbf-solana-solana"
 
 declare i32 @memcmp(ptr, ptr, i64)
 
-define private void @"0000000000000001_hash_unit_test_poiso_4wx61fBNpDhykC"() {
+define void @"0000000000000001_hash_unit_test_poiso_4wx61fBNpDhykC"() {
 entry:
   %local_0 = alloca i64, align 8
   %local_1 = alloca { ptr, i64, i64 }, align 8
