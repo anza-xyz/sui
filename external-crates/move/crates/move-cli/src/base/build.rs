@@ -30,8 +30,7 @@ impl Build {
             }
             Architecture::Solana => {
                 #[cfg(feature = "solana-backend")]
-                todo!();
-                //config.compile_package_solana(&rerooted_path, &mut std::io::stderr())?;
+                config.compile_package_solana(&rerooted_path, &mut std::io::stderr())?;
 
                 #[cfg(not(feature = "solana-backend"))]
                 anyhow::bail!("The Solana architecture is not supported because move-cli was not compiled with feature flag `solana-backend`.");

@@ -44,9 +44,8 @@ pub fn get_harness_paths(dep: &str) -> anyhow::Result<HarnessPaths> {
                 "move-cli",
                 "--bin",
                 "move",
-                // fixme sui
-                //"--features",
-                //"solana-backend"
+                "--features",
+                "solana-backend"
             ])
             .status()
             .expect("Failed to build move-cli")
