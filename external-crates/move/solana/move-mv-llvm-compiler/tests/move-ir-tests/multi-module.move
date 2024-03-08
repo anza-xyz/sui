@@ -13,7 +13,7 @@ module 0x101::Test2 {
   }
 }
 
-script {
+module 0x102::Test3 {
   fun main() {
     let a: u8 = 1;
     let b: u8 = 2;
