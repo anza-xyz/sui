@@ -77,7 +77,7 @@ fn run_test_inner(test_path: &Path) -> anyhow::Result<()> {
         .parent()
         .unwrap()
         .to_path_buf();
-    let stdlib_path = &move_compiler_path.join(PathBuf::from("../../language/move-stdlib"));
+    let stdlib_path = &move_compiler_path.join(PathBuf::from("../../crates/move-stdlib"));
     let stdlib_string = stdlib_path
         .canonicalize()
         .unwrap()
