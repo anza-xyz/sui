@@ -69,6 +69,12 @@ pub struct Test {
     /// Collect coverage information for later use with the various `move coverage` subcommands. Currently supported only in debug builds.
     #[clap(long = "coverage")]
     pub compute_coverage: bool,
+
+    /// Use the Solana VM.
+    /// Does not work with --stackless.
+    #[cfg(feature = "solana-backend")]
+    #[structopt(long = "solana")]
+    pub solana: bool,
 }
 
 impl Test {
@@ -108,6 +114,8 @@ impl Test {
             check_stackless_vm,
             verbose_mode,
             compute_coverage: _,
+            #[cfg(feature = "solana-backend")]
+            solana,
         } = self;
         UnitTestingConfig {
             gas_limit,
@@ -117,6 +125,8 @@ impl Test {
             report_statistics,
             check_stackless_vm,
             verbose: verbose_mode,
+            #[cfg(feature = "solana-backend")]
+            solana,
             ..UnitTestingConfig::default_with_bound(None)
         }
     }

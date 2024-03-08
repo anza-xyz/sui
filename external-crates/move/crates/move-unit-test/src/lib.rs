@@ -100,6 +100,12 @@ pub struct UnitTestingConfig {
     /// Verbose mode
     #[clap(short = 'v', long = "verbose")]
     pub verbose: bool,
+
+    /// Use the Solana VM.
+    /// Does not work with --stackless.
+    #[cfg(feature = "solana-backend")]
+    #[clap(long = "solana")]
+    pub solana: bool,
 }
 
 fn format_module_id(module_id: &ModuleId) -> String {
@@ -125,6 +131,8 @@ impl UnitTestingConfig {
             verbose: false,
             list: false,
             named_address_values: vec![],
+            #[cfg(feature = "solana-backend")]
+            solana: false,
         }
     }
 
@@ -205,9 +213,14 @@ impl UnitTestingConfig {
         }
 
         writeln!(shared_writer.lock().unwrap(), "Running Move unit tests")?;
+        let num_threads = if cfg!(feature = "solana-backend") {
+            1 // enforce single threaded execution for Solana, as llvm-sys is not re-entrant.
+        } else {
+            self.num_threads
+        };
         let mut test_runner = TestRunner::new(
             self.gas_limit.unwrap_or(DEFAULT_EXECUTION_BOUND),
-            self.num_threads,
+            num_threads,
             self.check_stackless_vm,
             self.verbose,
             self.report_stacktrace_on_abort,
@@ -215,6 +228,8 @@ impl UnitTestingConfig {
             native_function_table,
             cost_table,
             verify_and_create_named_address_mapping(self.named_address_values.clone()).unwrap(),
+            #[cfg(feature = "solana-backend")]
+            self.solana,
         )
         .unwrap();
 

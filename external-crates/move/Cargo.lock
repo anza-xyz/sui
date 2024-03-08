@@ -3368,6 +3368,7 @@ dependencies = [
  "move-stackless-bytecode-interpreter",
  "move-stdlib",
  "move-symbol-pool",
+ "move-to-solana",
  "move-vm-profiler",
  "move-vm-runtime",
  "move-vm-test-utils",

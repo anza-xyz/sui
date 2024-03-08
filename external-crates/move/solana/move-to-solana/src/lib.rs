@@ -24,7 +24,7 @@ use move_command_line_common::files::{
     MOVE_COMPILED_EXTENSION, MOVE_EXTENSION, SOURCE_MAP_EXTENSION,
 };
 use move_compiler::{shared::PackagePaths, Flags};
-use move_core_types::{identifier::IdentStr, language_storage::ModuleId, annotated_value::MoveValue};
+use move_core_types::{identifier::IdentStr, language_storage::ModuleId, runtime_value::MoveValue};
 use move_ir_types::location::Spanned;
 use move_model::{
     model::GlobalEnv, options::ModelBuilderOptions, parse_addresses_from_options,

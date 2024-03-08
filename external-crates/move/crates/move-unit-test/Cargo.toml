@@ -35,6 +35,9 @@ move-model.workspace = true
 move-stackless-bytecode-interpreter.workspace = true
 move-bytecode-utils.workspace = true
 
+move-to-solana.workspace = true
+move-to-solana.optional = true
+
 [dev-dependencies]
 datatest-stable.workspace = true
 difference.workspace = true
@@ -49,3 +52,4 @@ harness = false
 
 [features]
 gas-profiler = []
+solana-backend = ["move-to-solana"]
