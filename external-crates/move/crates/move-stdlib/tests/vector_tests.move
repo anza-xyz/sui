@@ -552,13 +552,12 @@ module std::vector_tests {
         V::insert(&mut v, 6, 2);
     }
 
-    // todo solana
-    //#[test]
+    #[test]
     fun size_limit_ok() {
         let v = V::empty();
         let i = 0;
-        // Limit is currently 1024 * 1024
-        let max_len = 1024 * 1024;
+        // Solana limit is 1024 * 2, while Sui's is 1024 * 1024
+        let max_len = 1024 * 2; // Good!
 
         while (i < max_len) {
             V::push_back(&mut v, i);
