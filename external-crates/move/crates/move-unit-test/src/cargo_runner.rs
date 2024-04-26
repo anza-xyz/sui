@@ -6,7 +6,7 @@ use move_command_line_common::files::find_filenames;
 use move_vm_runtime::native_functions::NativeFunctionTable;
 use move_vm_test_utils::gas_schedule::CostTable;
 
-use crate::{UnitTestingConfig, DEFAULT_EXECUTION_BOUND};
+use crate::UnitTestingConfig;
 
 pub fn run_tests_with_config_and_filter(
     mut config: UnitTestingConfig,
@@ -40,7 +40,6 @@ pub fn run_tests_with_config_and_filter(
             native_function_table,
             cost_table,
             std::io::stdout(),
-            DEFAULT_EXECUTION_BOUND
         )
         .expect("Failed to execute tests");
 

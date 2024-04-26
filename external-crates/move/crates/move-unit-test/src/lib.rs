@@ -198,7 +198,6 @@ impl UnitTestingConfig {
         native_function_table: Option<NativeFunctionTable>,
         cost_table: Option<CostTable>,
         writer: W,
-        gas_limit: u64,
     ) -> Result<(W, bool)> {
         let shared_writer = Mutex::new(writer);
 
@@ -217,14 +216,14 @@ impl UnitTestingConfig {
         }
 
         writeln!(shared_writer.lock().unwrap(), "Running Move unit tests")?;
-        let (num_threads, cgas_limit) = if cfg!(feature = "solana-backend") {
-            (1, gas_limit) // enforce single threaded execution for Solana, as llvm-sys is not re-entrant.
+        let num_threads = if cfg!(feature = "solana-backend") {
+            1 // enforce single threaded execution for Solana, as llvm-sys is not re-entrant.
         } else {
-            (self.num_threads, self.gas_limit.unwrap())
+            self.num_threads
         };
 
         let mut test_runner = TestRunner::new(
-            cgas_limit,
+            self.gas_limit.unwrap_or(DEFAULT_EXECUTION_BOUND),
             num_threads,
             self.check_stackless_vm,
             self.verbose,

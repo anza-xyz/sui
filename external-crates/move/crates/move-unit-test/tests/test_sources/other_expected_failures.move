@@ -25,6 +25,7 @@ module 0x42::m {
 
     #[test]
     #[expected_failure(out_of_gas, location=Self)]
+    #[gas_budget(compute_unit_limit=10000000, heap_size=40000, max_call_depth=10)]
     fun t4() {
         loop {}
     }

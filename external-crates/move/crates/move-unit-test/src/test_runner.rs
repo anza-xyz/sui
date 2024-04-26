@@ -529,10 +529,10 @@ impl SharedTestingConfig {
         }
 
         let gen_options = move_to_solana::options::Options::default();
-        // TODO: Get the compute budget from the test file. anza-xyz/sui/issues/20
-        let compute_budget = move_to_solana::runner::compute_budget(self.execution_bound);
 
         for (function_name, test_info) in &test_plan.tests {
+            let compute_budget = move_to_solana::runner::compute_budget(&test_info.gas_budget);
+
             let shared_object = match move_to_solana::run_for_unit_test(
                 &gen_options,
                 &model,

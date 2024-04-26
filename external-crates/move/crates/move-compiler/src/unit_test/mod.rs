@@ -34,7 +34,7 @@ pub struct TestCase {
     pub test_name: TestName,
     pub arguments: Vec<MoveValue>,
     pub expected_failure: Option<ExpectedFailure>,
-    pub gas_budget: Option<GasBudgetParams>,
+    pub gas_budget: Option<SolanaGasBudgetParams>,
 }
 
 #[derive(Debug, Clone)]
@@ -47,13 +47,6 @@ pub enum ExpectedFailure {
     ExpectedWithError(ExpectedMoveError),
 }
 
-#[derive(Debug, Clone)]
-pub struct GasBudgetParams {
-    pub compute_budget:u64,
-    pub heap_size:u64,
-    pub max_call_depth:u64,
-}
-
 #[derive(Debug, Clone, Ord, PartialOrd, PartialEq, Eq)]
 pub struct ExpectedMoveError(
     pub StatusCode,
@@ -64,6 +57,23 @@ pub struct ExpectedMoveError(
 pub struct ExpectedMoveErrorDisplay<'a> {
     error: &'a ExpectedMoveError,
     is_past_tense: bool,
+}
+
+#[derive(Debug, Clone)]
+pub struct SolanaGasBudgetParams {
+    pub compute_budget: u64,
+    pub heap_size: usize,
+    pub max_call_depth: usize,
+}
+
+impl SolanaGasBudgetParams {
+    pub fn new() -> Self {
+        SolanaGasBudgetParams {
+            compute_budget: i64::MAX as u64,
+            heap_size: 10000000,
+            max_call_depth: 8192,
+        }
+    }
 }
 
 impl ModuleTestPlan {

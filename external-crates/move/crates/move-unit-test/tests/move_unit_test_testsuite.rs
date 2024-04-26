@@ -5,7 +5,7 @@
 use move_command_line_common::testing::{
     add_update_baseline_fix, format_diff, read_env_update_baseline, EXP_EXT,
 };
-use move_unit_test::{self, UnitTestingConfig, DEFAULT_EXECUTION_BOUND, DEFAULT_EXECUTION_BOUND_SOLANA};
+use move_unit_test::{self, UnitTestingConfig};
 use regex::RegexBuilder;
 use std::{
     fs,
@@ -34,12 +34,12 @@ fn run_test_with_modifiers(
 
     if !cfg!(feature = "solana-backend") {
         results.push((
-            unit_test_config.run_and_report_unit_tests(test_plan.unwrap(), None, None, buffer, DEFAULT_EXECUTION_BOUND)?,
+            unit_test_config.run_and_report_unit_tests(test_plan.unwrap(), None, None, buffer)?,
             path.with_extension(EXP_EXT),
         ));
     } else {
         results.push((
-            unit_test_config.run_and_report_unit_tests(test_plan.unwrap(), None, None, buffer, DEFAULT_EXECUTION_BOUND_SOLANA)?,
+            unit_test_config.run_and_report_unit_tests(test_plan.unwrap(), None, None, buffer)?,
             path.with_extension(format!("{}.{}", "solana", EXP_EXT)),
         ));
     }

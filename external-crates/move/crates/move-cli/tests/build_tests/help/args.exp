@@ -31,6 +31,8 @@ Options:
           Installation directory for compiled artifacts. Defaults to current directory
       --force
           Force recompilation of all packages
+      --arch <ARCHITECTURE>
+          
       --fetch-deps-only
           Only fetch dependency repos to MOVE_HOME
       --skip-fetch-latest-git-deps

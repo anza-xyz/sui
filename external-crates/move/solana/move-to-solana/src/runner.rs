@@ -35,6 +35,8 @@ use std::{
     time::{Duration, Instant},
 };
 
+use move_compiler::unit_test::SolanaGasBudgetParams;
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AccountInfo {
     pub key: String,
@@ -67,11 +69,15 @@ pub struct ExecuteResult {
     pub log: String,
 }
 
-pub fn compute_budget(execution_bound: u64) -> ComputeBudget {
+pub fn compute_budget(gas_budget_params: &Option<SolanaGasBudgetParams>) -> ComputeBudget {
+    let gb = match gas_budget_params {
+        Some(gb) => gb.clone(),
+        None => SolanaGasBudgetParams::new(),
+    };
     ComputeBudget {
-        compute_unit_limit: execution_bound,
-        heap_size: Some(10000000),
-        max_call_depth: 8192,
+        compute_unit_limit: gb.compute_budget,
+        heap_size: Some(gb.heap_size),
+        max_call_depth: gb.max_call_depth,
         ..ComputeBudget::default()
     }
 }

@@ -14,7 +14,7 @@ use move_compiler::{
 };
 use move_coverage::coverage_map::{output_map_to_file, CoverageMap};
 use move_package::{compilation::build_plan::BuildPlan, BuildConfig};
-use move_unit_test::{UnitTestingConfig, DEFAULT_EXECUTION_BOUND_SOLANA_STDLIB_TEST};
+use move_unit_test::UnitTestingConfig;
 use move_vm_test_utils::gas_schedule::CostTable;
 use std::{
     collections::HashMap,
@@ -241,7 +241,7 @@ pub fn run_move_unit_tests<W: Write + Send>(
     // Run the tests. If any of the tests fail, then we don't produce a coverage report, so cleanup
     // the trace files.
     if !unit_test_config
-        .run_and_report_unit_tests(test_plan, Some(natives), cost_table, writer, DEFAULT_EXECUTION_BOUND_SOLANA_STDLIB_TEST)
+        .run_and_report_unit_tests(test_plan, Some(natives), cost_table, writer)
         .unwrap()
         .1
     {

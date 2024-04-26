@@ -14,7 +14,7 @@ use crate::{
         known_attributes::TestingAttribute, unique_map::UniqueMap, CompilationEnv, Identifier,
         NumericalAddress,
     },
-    unit_test::{ExpectedFailure, ExpectedMoveError, ModuleTestPlan, TestCase},
+    unit_test::{ExpectedFailure, ExpectedMoveError, ModuleTestPlan, TestCase, SolanaGasBudgetParams},
 };
 use move_core_types::{
     account_address::AccountAddress as MoveAddress, language_storage::ModuleId,
@@ -23,8 +23,6 @@ use move_core_types::{
 use move_ir_types::location::Loc;
 use move_symbol_pool::Symbol;
 use std::collections::BTreeMap;
-
-use super::GasBudgetParams;
 
 struct Context<'env> {
     env: &'env mut CompilationEnv,
@@ -184,7 +182,7 @@ fn build_test_info<'func>(
         None => None,
         Some(abort_attribute) => parse_failure_attribute(context, abort_attribute),
     };
-    let gas_budget: Option<GasBudgetParams> = parse_gas_budget_attribute(context, gas_budget_attr);
+    let gas_budget = parse_gas_budget_attribute(context, gas_budget_attr);
 
     Some(TestCase {
         test_name: fn_name.to_string(),
@@ -491,12 +489,8 @@ fn parse_failure_attribute(
     }
 }
 
-fn parse_gas_budget_attribute(context: &mut Context, gas_budget_attr: Option<&E::Attribute>) -> Option<GasBudgetParams> {
-    let mut assigned_gas_budget = GasBudgetParams {
-        compute_budget:1,
-        heap_size: 1,
-        max_call_depth: 1,
-    };
+fn parse_gas_budget_attribute(context: &mut Context, gas_budget_attr: Option<&E::Attribute>) -> Option<SolanaGasBudgetParams> {
+    let mut assigned_gas_budget = SolanaGasBudgetParams::new();
     if gas_budget_attr.is_none(){
         return Some(assigned_gas_budget);
     }
@@ -546,21 +540,22 @@ fn parse_gas_budget_attribute(context: &mut Context, gas_budget_attr: Option<&E:
             }
             while !gas_budget_kind_vec.is_empty() {
                 let (gas_budget_kind, (attr_loc, attr)) = gas_budget_kind_vec.pop().unwrap();
-                match gas_budget_kind.as_str() {
+                let gb = gas_budget_kind.as_str();
+                match gb {
                     TestingAttribute::GAS_BUDGET_COMPUTE_UNIT_LIMIT => {
-                        let u = get_assigned_attribute_as_u64(context, TestingAttribute::GAS_BUDGET_COMPUTE_UNIT_LIMIT, attr_loc, attr)?;
+                        let u = get_assigned_attribute_as_u64(context, gb, attr_loc, attr)?;
                         // TODO: Do some sanity check that u shouldn't be larger than a max value.
                         assigned_gas_budget.compute_budget = u;
                     }
                     TestingAttribute::GAS_BUDGET_HEAP_SIZE => {
-                        let u = get_assigned_attribute_as_u64(context, TestingAttribute::GAS_BUDGET_HEAP_SIZE, attr_loc, attr)?;
+                        let u = get_assigned_attribute_as_u64(context, gb, attr_loc, attr)?;
                         // TODO: Do some sanity check that u shouldn't be larger than a max value.
-                        assigned_gas_budget.heap_size = u;
+                        assigned_gas_budget.heap_size = u as usize;
                     }
                     TestingAttribute::GAS_BUDGET_MAX_CALL_DEPTH => {
-                        let u = get_assigned_attribute_as_u64(context, TestingAttribute::GAS_BUDGET_MAX_CALL_DEPTH, attr_loc, attr)?;
+                        let u = get_assigned_attribute_as_u64(context, gb, attr_loc, attr)?;
                         // TODO: Do some sanity check that u shouldn't be larger than a max value.
-                        assigned_gas_budget.max_call_depth = u;
+                        assigned_gas_budget.max_call_depth = u as usize;
                     }
                     _ => return None,
                 };
