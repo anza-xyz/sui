@@ -27,8 +27,7 @@ use move_model::{
     model::GlobalEnv, options::ModelBuilderOptions,
     run_model_builder_with_options_and_compilation_flags,
 };
-// todo sui
-//use move_symbol_pool::Symbol as SymbolPool;
+
 use package::build_dependency;
 use std::{fs, io::Write, path::Path};
 
@@ -84,8 +83,7 @@ fn main() -> anyhow::Result<()> {
         }
 
         let sources = vec![PackagePaths {
-            name: None, // todo sui
-            //name: Some(SymbolPool::from(target_path_string.clone())), // TODO: is it better than `None`?
+            name: None,
             paths: vec![target_path_string],
             named_address_map: named_address_map.clone(),
         }];
