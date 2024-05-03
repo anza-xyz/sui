@@ -84,10 +84,6 @@ name = "stdlib-with-p-option-tests"
 harness = false
 
 [[test]]
-name = "cli-tests"
-harness = false
-
-[[test]]
 name = "dwarf-tests"
 harness = false
 
