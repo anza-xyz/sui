@@ -540,23 +540,24 @@ fn parse_gas_budget_attribute(context: &mut Context, gas_budget_attr: Option<&E:
             }
             while !gas_budget_kind_vec.is_empty() {
                 let (gas_budget_kind, (attr_loc, attr)) = gas_budget_kind_vec.pop().unwrap();
-                match gas_budget_kind.as_str() {
+                let gb = gas_budget_kind.as_str();
+                match gb {
                     TestingAttribute::GAS_BUDGET_COMPUTE_UNIT_LIMIT => {
-                        let u = get_assigned_attribute_as_u64(context, TestingAttribute::GAS_BUDGET_COMPUTE_UNIT_LIMIT, attr_loc, attr)?;
+                        let u = get_assigned_attribute_as_u64(context, gb, attr_loc, attr)?;
                         // TODO: Do some sanity check that u shouldn't be larger than a max value.
                         assigned_gas_budget.compute_budget = u;
                     }
                     TestingAttribute::GAS_BUDGET_HEAP_SIZE => {
-                        let u = get_assigned_attribute_as_u64(context, TestingAttribute::GAS_BUDGET_HEAP_SIZE, attr_loc, attr)?;
+                        let u = get_assigned_attribute_as_u64(context, gb, attr_loc, attr)?;
                         // TODO: Do some sanity check that u shouldn't be larger than a max value.
-                        assigned_gas_budget.heap_size = u;
+                        assigned_gas_budget.heap_size = u as usize;
                     }
                     TestingAttribute::GAS_BUDGET_MAX_CALL_DEPTH => {
-                        let u = get_assigned_attribute_as_u64(context, TestingAttribute::GAS_BUDGET_MAX_CALL_DEPTH, attr_loc, attr)?;
+                        let u = get_assigned_attribute_as_u64(context, gb, attr_loc, attr)?;
                         // TODO: Do some sanity check that u shouldn't be larger than a max value.
-                        assigned_gas_budget.max_call_depth = u;
+                        assigned_gas_budget.max_call_depth = u as usize;
                     }
-                    _ => unreachable!(),
+                    _ => return None,
                 };
             }
             return Some(assigned_gas_budget);
