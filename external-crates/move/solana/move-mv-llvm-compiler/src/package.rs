@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{anyhow, bail, Context, Result};
-use move_cli::base::reroot_path;
 use move_command_line_common::env::MOVE_HOME;
 use move_compiler::shared::{NumericalAddress, PackagePaths};
 use move_core_types::account_address::AccountAddress;
@@ -36,6 +35,15 @@ pub struct DependencyInfo {
 pub struct DependencyAndAccountAddress {
     pub compilation_dependency: Vec<String>,
     pub account_addresses: Vec<(Symbol, AccountAddress)>,
+}
+
+pub fn reroot_path(path: Option<PathBuf>) -> anyhow::Result<PathBuf> {
+    let path = path.unwrap_or_else(|| PathBuf::from("."));
+    // Always root ourselves to the package root, and then compile relative to that.
+    let rooted_path = SourcePackageLayout::try_find_root(&path.canonicalize()?)?;
+    std::env::set_current_dir(rooted_path).unwrap();
+
+    Ok(PathBuf::from("."))
 }
 
 pub fn build_dependency(

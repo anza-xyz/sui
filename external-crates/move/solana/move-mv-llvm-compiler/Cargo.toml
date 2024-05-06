@@ -32,7 +32,6 @@ move-native.workspace = true
 move-stackless-bytecode.workspace = true
 move-stdlib.workspace = true
 move-symbol-pool.workspace = true
-move-cli.workspace = true
 move-package.workspace = true
 move-to-solana.workspace = true
 clap = { version = "3.1.8", features = ["derive"] }
