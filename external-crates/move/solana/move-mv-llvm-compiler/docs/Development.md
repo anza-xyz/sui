@@ -259,6 +259,7 @@ Use [RUST_LOG](https://docs.rs/env_logger/latest/env_logger/) environment variab
 For example
 
 > RUST_LOG=info move-mv-llvm-compiler -b tests/BasicCoin.mv
+> RUST_LOG=debug move-mv-llvm-compiler -b tests/BasicCoin.mv
 
 ----
 On MacOS, some builds and tests might spuriously fail because the tools downloaded may not be trusted by the OS. You may get error message like "clang-17 can't be opened because Apple cannot check it for malicious software". To get around that run the following command in each directory where binaries are there e.g., `move-dev/bin` and `rust/bin`
