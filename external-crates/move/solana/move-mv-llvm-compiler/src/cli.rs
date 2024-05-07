@@ -102,25 +102,25 @@ use anyhow::{bail, Result};
 use std::{fs::canonicalize, path::PathBuf};
 
 pub fn absolute_existing_file(path: Option<String>, title: &str) -> Result<PathBuf> {
-    absolute_path(path, title, ExistanceCheck::ExistingFile)
+    absolute_path(path, title, ExistenceCheck::ExistingFile)
 }
 pub fn absolute_new_file(path: Option<String>, title: &str) -> Result<PathBuf> {
-    absolute_path(path, title, ExistanceCheck::NewFile)
+    absolute_path(path, title, ExistenceCheck::NewFile)
 }
-enum ExistanceCheck {
+enum ExistenceCheck {
     ExistingFile,
     NewFile,
 }
-impl ExistanceCheck {
+impl ExistenceCheck {
     fn should_exist(&self) -> bool {
-        use ExistanceCheck::*;
+        use ExistenceCheck::*;
         match self {
             ExistingFile => true,
             NewFile => false,
         }
     }
 }
-fn absolute_path(path: Option<String>, title: &str, check: ExistanceCheck) -> Result<PathBuf> {
+fn absolute_path(path: Option<String>, title: &str, check: ExistenceCheck) -> Result<PathBuf> {
     let Some(path) = path else {
         bail!("Option not set: {title}")
     };
