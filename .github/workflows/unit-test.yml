@@ -33,27 +33,8 @@ jobs:
           echo "PLATFORM_TOOLS_PATH=$PLATFORM_TOOLS_PATH" >> $GITHUB_ENV
 
       - name: move-native tests
-        run: cargo test --manifest-path external-crates/move/Cargo.toml --profile ci -p move-native
-
-      - name: build move-cli
-        run: cargo build --manifest-path external-crates/move/Cargo.toml --profile ci -p move-cli --bin move --features solana-backend
-        env:
-          LLVM_SYS_170_PREFIX: ${{ env.MOVE_DEV_PATH }}
-          PLATFORM_TOOLS_ROOT: ${{ env.PLATFORM_TOOLS_PATH }}
-
-      - name: build move-ir-compiler
-        run: cargo build --manifest-path external-crates/move/Cargo.toml --profile ci -p move-ir-compiler
-
-      - name: build move-compiler
         run: |
-          cargo build --manifest-path external-crates/move/Cargo.toml --profile ci -p move-compiler
-
-      - name: move-compiler move_check_testsuite tests
-        run: |
-          cargo test --manifest-path external-crates/move/Cargo.toml -p move-compiler --test move_check_testsuite -- --test-threads=1
-        env:
-          LLVM_SYS_170_PREFIX: ${{ env.MOVE_DEV_PATH }}
-          PLATFORM_TOOLS_ROOT: ${{ env.PLATFORM_TOOLS_PATH }}
+          cargo test --manifest-path external-crates/move/Cargo.toml --profile ci -p move-native
 
       - name: move-to-solana tests
         run: |
@@ -64,7 +45,14 @@ jobs:
 
       - name: move-mv-llvm-compiler tests
         run: |
+          cargo build --manifest-path external-crates/move/Cargo.toml --profile ci -p move-cli --bin move --features solana-backend
+          cargo build --manifest-path external-crates/move/Cargo.toml --profile ci -p move-compiler
+          cargo build --manifest-path external-crates/move/Cargo.toml --profile ci -p move-ir-compiler
           cargo test --manifest-path external-crates/move/Cargo.toml --profile ci -p move-mv-llvm-compiler
         env:
           LLVM_SYS_170_PREFIX: ${{ env.MOVE_DEV_PATH }}
           PLATFORM_TOOLS_ROOT: ${{ env.PLATFORM_TOOLS_PATH }}
+
+      - name: move-compiler move_check_testsuite tests
+        run: |
+          cargo test --manifest-path external-crates/move/Cargo.toml --profile ci -p move-compiler --test move_check_testsuite -- --test-threads=1
