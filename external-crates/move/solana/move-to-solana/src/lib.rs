@@ -6,6 +6,7 @@ pub mod cstr;
 pub mod options;
 pub mod runner;
 pub mod stackless;
+pub mod entry_codec;
 
 use crate::{
     options::Options,

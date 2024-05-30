@@ -146,7 +146,8 @@ pub enum TestDirective {
     Xfail(String), // The test is expected to fail with the `String` message. It is an error if test passes.
     Abort(u64),    // The test should abort.
     Log(String),   // Test should pass.
-    Input(Input),
+    Input(Input),  // Input file with program_id, accounts, instruction_data
+    Input2(Input2),// Input file with program_id, entry_fn. // TODO: Single input.json should be used.
     UseStdlib, // Build and link the move stdlib as bytecode
 }
 
@@ -165,6 +166,13 @@ pub struct Input {
     pub program_id: String,
     pub accounts: Vec<Account>,
     pub instruction_data: Vec<u8>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct Input2 {
+    // FIXME: We should have single input.json loader with appropriate discriminators.
+    pub program_id: String,
+    pub entry_fn: String,
 }
 
 impl TestPlan {
@@ -264,6 +272,13 @@ fn load_accounts(path: PathBuf) -> Result<Input> {
     Ok(input)
 }
 
+fn load_accounts2(path: PathBuf) -> Result<Input2> {
+    debug!("Reading input file {path:?}");
+    let file = fs::File::open(path).unwrap();
+    let input: Input2 = serde_json::from_reader(file)?;
+    Ok(input)
+}
+
 fn load_directives(test_path: &Path) -> anyhow::Result<Vec<TestDirective>> {
     let mut directives = Vec::new();
     let source = std::fs::read_to_string(test_path)?;
@@ -296,6 +311,12 @@ fn load_directives(test_path: &Path) -> anyhow::Result<Vec<TestDirective>> {
             let filename = test_path.parent().unwrap().join(filename);
             let input = load_accounts(filename).unwrap();
             directives.push(TestDirective::Input(input));
+        }
+        if line.starts_with("input2 ") {
+            let filename = line.split(' ').nth(1).expect("input file name");
+            let filename = test_path.parent().unwrap().join(filename);
+            let input = load_accounts2(filename).unwrap();
+            directives.push(TestDirective::Input2(input));
         }
         if line.starts_with("signers ") {
             let s = line.split(' ').nth(1).expect("signer list");

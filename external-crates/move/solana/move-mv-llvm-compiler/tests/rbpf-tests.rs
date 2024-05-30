@@ -422,6 +422,12 @@ fn run_rbpf(test_plan: &tc::TestPlan, exe: &Path) -> anyhow::Result<()> {
         .directives
         .iter()
         .find(|&x| matches!(x, tc::TestDirective::Input(_x)));
+    let input_directive = input_directive.or(
+        test_plan
+            .directives
+            .iter()
+            .find(|&x| matches!(x, tc::TestDirective::Input2(_x)))
+    );
     if let Some(tc::TestDirective::Input(input)) = input_directive {
         instruction_data = input.instruction_data.clone();
         program_id = input.program_id.parse::<Pubkey>().unwrap_or_else(|err| {
@@ -458,6 +464,17 @@ fn run_rbpf(test_plan: &tc::TestPlan, exe: &Path) -> anyhow::Result<()> {
                 is_writable: account_info.is_writable.unwrap_or(false),
             });
         }
+    }
+    if let Some(tc::TestDirective::Input2(input)) = input_directive {
+        program_id = input.program_id.parse::<Pubkey>().expect("program_id");
+        let message = move_to_solana::entry_codec::generate_move_call_message(
+            program_id.clone(),
+            &Hash::new_unique(),
+            None,
+            &input.entry_fn,
+            &[],
+        )?;
+        instruction_data = message.instructions[0].data.clone();
     }
     transaction_accounts.push((
         loader_id,

@@ -4931,6 +4931,51 @@ dependencies = [
 ]
 
 [[package]]
+name = "solana-move-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "atty",
+ "blake3 0.1.5",
+ "bs58 0.5.0",
+ "chrono",
+ "clap 3.2.23",
+ "codespan",
+ "codespan-reporting",
+ "colored",
+ "env_logger 0.8.4",
+ "extension-trait",
+ "itertools",
+ "libc",
+ "llvm-sys",
+ "log",
+ "move-binary-format",
+ "move-bytecode-source-map",
+ "move-command-line-common",
+ "move-compiler",
+ "move-core-types",
+ "move-ir-types",
+ "move-model",
+ "move-native",
+ "move-stackless-bytecode",
+ "move-symbol-pool",
+ "move-to-solana",
+ "num 0.4.0",
+ "num-traits",
+ "once_cell",
+ "parking_lot 0.11.2",
+ "regex",
+ "semver",
+ "serde",
+ "serde_json",
+ "solana-bpf-loader-program",
+ "solana-program-runtime",
+ "solana-sdk",
+ "solana_rbpf",
+ "tempfile",
+]
+
+[[package]]
 name = "solana-program"
 version = "1.17.0"
 source = "git+https://github.com/solana-labs/solana?rev=5d1538013206c1afe6f9d3c8a1a870cb0bfa9dcd#5d1538013206c1afe6f9d3c8a1a870cb0bfa9dcd"
