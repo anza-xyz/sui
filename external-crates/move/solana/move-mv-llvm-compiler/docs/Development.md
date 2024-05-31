@@ -312,6 +312,17 @@ As cargo uses regex to match tests, one can pass test path to control which test
 cargo test  --manifest-path external-crates/move/Cargo.toml -p move-mv-llvm-compiler --test rbpf-tests -- basic/sources/basic.move
 ```
 
+---
+The `instruction_data` field in input.json provides the name of entry point to be invoked. When the entry
+point is not found rbpf will [error with event log](https://github.com/anza-xyz/sui/blob/solana/external-crates/move/solana/move-mv-llvm-compiler/tests/rbpf-tests.rs#L578) like this.
+
+```log
+event 0: "0x44f, 0x44f, 0x44f, 0x44f, 0x44f"
+test run_test::hello/sources/hello.move ... FAILED
+```
+
+The fix is to supply correct entry point name.
+
 ----
 On MacOS, some builds and tests might spuriously fail because the tools downloaded may not be trusted by the OS. You may get error message like "clang-17 can't be opened because Apple cannot check it for malicious software". To get around that run the following command in each directory where binaries are there e.g., `move-dev/bin` and `rust/bin`
 
