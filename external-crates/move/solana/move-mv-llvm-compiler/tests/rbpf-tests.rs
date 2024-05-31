@@ -503,7 +503,7 @@ fn run_rbpf(test_plan: &tc::TestPlan, exe: &Path) -> anyhow::Result<()> {
     );
     let mut vm = vm.unwrap();
 
-    let (_instruction_count, result) = vm.execute_program(&verified_executable, true);
+    let (_instruction_count, result) = vm.execute_program(&verified_executable, /*interpreted=*/true);
 
     let result = Result::from(result);
 
