@@ -1285,11 +1285,22 @@ impl<'mm, 'up> FunctionContext<'mm, 'up> {
                 builder.field_ref_store(src_llval, dst_llval, stype, *offset);
             }
             Operation::Pack(mod_id, struct_id, types) => {
+                debug!(target:"debug", "Operation::Pack struct_id {:#?}", &struct_id);
                 let types = mty::Type::instantiate_vec(types.to_vec(), self.type_params);
+
+                let mod_env = self.get_global_env().get_module(*mod_id);
+                let mod_name = mod_env.get_name();
+                let all_structs = mod_env.get_structs();
+                debug!(target:"debug", "Module {:#?} all structures", mod_name);
+                for st in all_structs {
+                    let st_name = st.get_full_name_str();
+                    debug!(target:"debug", "Structure {:#?}", st_name);
+                }
+
                 let struct_env = self
                     .get_global_env()
                     .get_module(*mod_id)
-                    .into_struct(*struct_id);
+                    .into_struct(struct_id.clone());
                 assert_eq!(dst.len(), 1);
                 assert_eq!(src.len(), struct_env.get_field_count());
                 let struct_name = struct_env.ll_struct_name_from_raw_name(&types);
@@ -1328,7 +1339,7 @@ impl<'mm, 'up> FunctionContext<'mm, 'up> {
                     .env
                     .get_file_and_location(&loc)
                     .unwrap_or(("unknown".to_string(), Location::new(0, 0)));
-                debug!(target: "dwarf", "Op {:#?} {}:{:#?}", &op, filename, location.line.0);
+                debug!(target: "dwarf", "Op {:#?} {}:{:#?} {:#?}", &op, filename, location.line.0, &struct_name);
                 di_builder.create_struct(self, mod_id, struct_id, &struct_name, None);
             }
             Operation::Unpack(mod_id, struct_id, types) => {
@@ -1839,8 +1850,30 @@ impl<'mm, 'up> FunctionContext<'mm, 'up> {
                     }
                     Type::Vector(bt) if bt.is_number_u8() => {
                         // This is a Constant::ByteArray element type.
-                        assert!(matches!(val_vec[0], Constant::ByteArray(_)));
-                        todo!("{:?}", mc);
+
+                        let val_vec_sz = val_vec.len();
+                        debug!(target: "debug", "val_vec size {val_vec_sz}");
+                        if !val_vec.is_empty() {
+                            assert!(matches!(val_vec[0], Constant::ByteArray(_)));
+                        }
+
+                        let vec = match move_stackless_bytecode::stackless_bytecode::transform_bytearray_to_vec(&val_vec) {
+                            Some(v) => v.clone(),
+                            None => {
+                                debug!(target: "constant", "No ByteArray found, using empty vector");
+                                let v: Vec<u8> = vec![];
+                                v
+                            }
+                        };
+                        debug!(target: "constant", "ByteArray contents: {:#?}", vec);
+                        let aval = llcx.const_int_array::<u8>(&vec);
+                        let elt_mty = Type::Primitive(PrimitiveType::U8);
+                        let (res_val_type, res_ptr) = self.make_global_array_and_copy_to_new_vec(aval, &elt_mty);
+                        return builder
+                            .build_load(res_val_type, res_ptr, "reload")
+                            .as_constant();
+
+
                     }
                     _ => {
                         todo!("unexpected vec constant: {}: {:#?}", val_vec.len(), val_vec);

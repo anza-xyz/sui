@@ -104,6 +104,18 @@ impl From<&u256::U256> for Constant {
         Constant::U256(U256::from(n))
     }
 }
+impl From<&Vec<u8>> for Constant {
+    fn from(v: &Vec<u8>) -> Constant {
+        Constant::ByteArray(v.clone())
+    }
+}
+
+pub fn transform_bytearray_to_vec(val_vec: &[Constant]) -> Option<&Vec<u8>> {
+    if let Some(Constant::ByteArray(ref vec)) = val_vec.first() {
+        return Some(vec);
+    }
+    None
+}
 
 /// An operation -- target of a call. This contains user functions, builtin functions, and
 /// operators.

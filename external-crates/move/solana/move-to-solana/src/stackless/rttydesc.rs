@@ -353,9 +353,12 @@ impl<'mm, 'up> RttyContext<'mm, 'up> {
             _ => unreachable!(),
         };
 
+        debug!(target: "debug", "s_env {:#?}", &s_env);
+
         // Look up the corresponding LLVM struct type constructed earlier in the translation.
         // Use it to collect field offsets, struct size, and struct alignment as computed by LLVM.
         let ll_struct_name = s_env.ll_struct_name_from_raw_name(s_tys);
+        debug!(target: "rtty", "ll_struct_name {:#?}", &ll_struct_name);
         let ll_struct_ty = llcx
             .named_struct_type(&ll_struct_name)
             .expect("no struct type");
