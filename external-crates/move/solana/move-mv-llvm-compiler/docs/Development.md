@@ -348,6 +348,15 @@ Add these to settings.json file
     },
 ```
 
+---
+To see the artifacts created by cargo build command
+
+```sh
+cargo run --message-format=json
+```
+
+This will emit `"reason":"compiler-artifact"` messages with the path to the binary [docs](https://doc.rust-lang.org/cargo/reference/external-tools.html#artifact-messages).
+
 ## Submission
 
 Only github pull requests are accepted. Typically contributors would fork this repo
