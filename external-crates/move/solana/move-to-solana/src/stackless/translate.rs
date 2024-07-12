@@ -1899,7 +1899,7 @@ impl<'mm, 'up> FunctionContext<'mm, 'up> {
                             assert!(matches!(val_vec[0], Constant::ByteArray(_)));
                         }
 
-                        let vec = match move_stackless_bytecode::stackless_bytecode::transform_bytearray_to_vec(&val_vec) {
+                        let vec = match transform_bytearray_to_vec(&val_vec) {
                             Some(v) => v.clone(),
                             None => {
                                 debug!(target: "constant", "No ByteArray found, using empty vector");

@@ -5,6 +5,7 @@
 //! Extension traits for foreign types.
 
 use crate::stackless::llvm;
+use move_stackless_bytecode::stackless_bytecode as sbc;
 use extension_trait::extension_trait;
 use move_binary_format::file_format::SignatureToken;
 use move_core_types::account_address;
@@ -249,6 +250,20 @@ pub impl SignatureTokenExt for SignatureToken {
             _ => {}
         };
     }
+}
+
+#[extension_trait]
+pub impl ConstantExtensions for sbc::Constant {
+    fn from_vec_u8(v: &Vec<u8>) -> sbc::Constant {
+        sbc::Constant::ByteArray(v.clone())
+    }
+}
+
+pub fn transform_bytearray_to_vec(val_vec: &[sbc::Constant]) -> Option<&Vec<u8>> {
+    if let Some(sbc::Constant::ByteArray(ref vec)) = val_vec.first() {
+        return Some(vec);
+    }
+    None
 }
 
 #[test]
